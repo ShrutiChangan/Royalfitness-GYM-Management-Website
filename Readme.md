@@ -1,73 +1,74 @@
-Royal Fitness is a full-stack Gym Management System built using the MERN stack (MongoDB, Express.js, React.js, Node.js).
+# 🏋️ Royal Fitness – Gym Management System
 
-This system helps manage gym members, attendance records, sessions, subscription plans, and reviews efficiently through a structured admin and user interface.
+Royal Fitness is a powerful **full-stack Gym Management System** developed using the **MERN Stack** (**MongoDB, Express.js, React.js, Node.js**) integrated with **Machine Learning using XGBoost**.
 
-🚀 Tech Stack
-Frontend
+The platform is designed to simplify and automate gym operations by providing an efficient system for managing members, attendance, gym sessions, subscription plans, reviews, and personalized diet recommendations through an intuitive admin and user interface.
 
-React.js
+---
 
-React Router
+# 🚀 Tech Stack
 
-Context API
+## Frontend
 
-Tailwind CSS
+* React.js
+* React Router DOM
+* Context API
+* Tailwind CSS
+* Axios
 
-Axios
+## Backend
 
-Backend
+* Node.js
+* Express.js
+* MongoDB Atlas
+* Mongoose
 
-Node.js
+## Machine Learning
 
-Express.js
+* XGBoost Model
+* Personalized Diet Recommendation System
 
-MongoDB Atlas
+---
 
-Mongoose
+# ✨ Features
 
-dotenv
+## 👥 Member Management
 
-📌 Features Implemented
-👥 Member Management
+* Add new gym members
+* View complete member details
+* Update and edit member information
+* Securely store member data in MongoDB Atlas
 
-Add new members
+## 📅 Attendance Management
 
-View member details
+* Mark daily attendance
+* Maintain attendance history
+* Track member activity and engagement
 
-Edit / Update member information
+## 🏋️ Session Management
 
-Store member data in MongoDB
+* Create and manage gym sessions
+* Assign workout sessions to members
+* Organize session schedules efficiently
 
-📅 Attendance Management
+## 💳 Subscription Plans
 
-Mark daily attendance
+* Create multiple membership plans
+* Update and delete subscription plans
+* Fetch all available plans dynamically
+* Sort plans based on pricing
 
-Store attendance records
+## ⭐ Review & Feedback System
 
-Track member activity
+* Members can submit reviews and feedback
+* Admin approval system for reviews
+* Display approved reviews publicly
 
-🏋️ Session Management
+## 🥗 AI-Based Diet Recommendation
 
-Create gym sessions
+* Integrated **XGBoost Machine Learning Model**
+* Generates personalized diet recommendations
+* Enhances member fitness experience using intelligent suggestions
 
-Manage session details
+---
 
-Assign sessions to members
-
-💳 Subscription Plans
-
-Create subscription plans
-
-Update and delete plans
-
-Fetch all available plans
-
-Sort plans based on price
-
-⭐ Review System
-
-Add member reviews
-
-Approve and manage reviews
-
-Display approved reviews
