@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import Calendar from "../components/Calendar";
 import GalleryManagement from "../components/GalleryManagement";
+import UserDetailsModal from "../components/UserDetailsModal";
 import {
   Settings,
   Star,
@@ -72,6 +73,7 @@ const AdminDashboard = () => {
     getAttendanceReport,
     getMemberAttendanceStats,
     updateMember,
+    deleteMember,
     approveReview,
     rejectReview,
     addScheduledSession,
@@ -86,6 +88,7 @@ const AdminDashboard = () => {
     updateScheduledSession,
     deleteScheduledSession,
     completeScheduledSession,
+    registerMember,
   } = useAuth();
 
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -104,6 +107,8 @@ const AdminDashboard = () => {
   const [showTrainerForm, setShowTrainerForm] = useState(false);
   const [showSessionForm, setShowSessionForm] = useState(false);
   const [showPlanForm, setShowPlanForm] = useState(false);
+  const [showAddMemberModal, setShowAddMemberModal] = useState(false);
+  const [selectedPlanForMember, setSelectedPlanForMember] = useState(null);
   const [editingPlan, setEditingPlan] = useState(null);
   const [editingMember, setEditingMember] = useState(null);
   const [showPassword, setShowPassword] = useState({});
@@ -481,6 +486,46 @@ const handleEditPlan = (plan) => {
         joinDate: "",
       });
       alert("Member updated successfully!");
+    }
+  };
+
+  const handleAddMemberClick = () => {
+    if (!subscriptionPlans || subscriptionPlans.length === 0) {
+      alert("Please create subscription plans first before adding members.");
+      return;
+    }
+    setShowAddMemberModal(true);
+  };
+
+  const handleAddMemberSubmit = async (formData) => {
+    try {
+      console.log("Adding new member:", formData);
+      
+      const memberData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        dob: formData.dob,
+        address: formData.address,
+        username: formData.username,
+        password: formData.password,
+        subscriptionPlan: formData.selectedPlanName,
+        subscriptionPlanId: formData.selectedPlanId,
+        joinDate: new Date().toISOString().split("T")[0],
+        trainerId: formData.selectedTrainerId || null,
+        trainerName: formData.selectedTrainerName || null,
+        trainerFee: formData.selectedTrainerFee || 0,
+        totalAmount: formData.totalAmount,
+        avatar: "https://static.vecteezy.com/system/resources/previews/020/765/399/original/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg",
+      };
+
+      await registerMember(memberData);
+      alert("Member added successfully!");
+      setShowAddMemberModal(false);
+      setSelectedPlanForMember(null);
+    } catch (error) {
+      console.error("Error adding member:", error);
+      alert("Error adding member: " + error.message);
     }
   };
   const handleEditSession = (session) => {
@@ -1289,7 +1334,9 @@ const handleEditPlan = (plan) => {
                     <h3 className="text-xl font-bold text-gray-900">
                       Members Management
                     </h3>
-                    <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
+                    <button 
+                      onClick={handleAddMemberClick}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
                       <UserPlus className="h-5 w-5" />
                       <span>Add Member</span>
                     </button>
@@ -2542,6 +2589,104 @@ const handleEditPlan = (plan) => {
                   Cancel Session
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Member Modal */}
+      <UserDetailsModal 
+        selectedPlan={selectedPlanForMember}
+        onClose={() => {
+          setShowAddMemberModal(false);
+          setSelectedPlanForMember(null);
+        }}
+        onSubmit={handleAddMemberSubmit}
+      />
+
+      {/* Plan Selection Modal for Adding Member */}
+      {showAddMemberModal && !selectedPlanForMember && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-gray-900">
+                  Select Subscription Plan
+                </h2>
+                <button
+                  onClick={() => {
+                    setShowAddMemberModal(false);
+                    setSelectedPlanForMember(null);
+                  }}
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {subscriptionPlans?.map((plan) => (
+                  <div
+                    key={plan._id}
+                    onClick={() => setSelectedPlanForMember(plan)}
+                    className={`border-2 rounded-xl p-6 cursor-pointer transition-all ${
+                      selectedPlanForMember?._id === plan._id
+                        ? "border-blue-500 bg-blue-50"
+                        : "border-gray-200 hover:border-blue-300"
+                    }`}
+                  >
+                    {plan.popular && (
+                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                          Most Popular
+                        </span>
+                      </div>
+                    )}
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      {plan.name}
+                    </h3>
+                    <div className="text-3xl font-bold text-purple-600 mb-4">
+                      ₹{plan.price}
+                      <span className="text-lg text-gray-600">
+                        /{plan.duration}
+                      </span>
+                    </div>
+                    <ul className="space-y-2 mb-6">
+                      {plan.features.slice(0, 3).map((feature, index) => (
+                        <li
+                          key={index}
+                          className="flex items-center text-sm text-gray-700"
+                        >
+                          <Check className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                          {feature}
+                        </li>
+                      ))}
+                      {plan.features.length > 3 && (
+                        <li className="text-sm text-gray-600">
+                          +{plan.features.length - 3} more features
+                        </li>
+                      )}
+                    </ul>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedPlanForMember(plan);
+                      }}
+                      className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      Select Plan
+                    </button>
+                  </div>
+                ))}
+              </div>
+              {(!subscriptionPlans || subscriptionPlans.length === 0) && (
+                <div className="text-center py-8">
+                  <p className="text-gray-600">
+                    No subscription plans available. Please create plans first.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

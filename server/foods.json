@@ -1,0 +1,326 @@
+[
+  {
+    "name": "Oatmeal (1 cup cooked)",
+    "calories": 150,
+    "protein": 5,
+    "carbs": 27,
+    "fat": 3,
+    "type": "veg",
+    "mealType": ["breakfast"]
+  },
+  {
+    "name": "Wheat Bread (2 slices)",
+    "calories": 160,
+    "protein": 6,
+    "carbs": 28,
+    "fat": 2,
+    "type": "veg",
+    "mealType": ["breakfast"]
+  },
+  {
+    "name": "Egg Omelet (2 eggs)",
+    "calories": 140,
+    "protein": 12,
+    "carbs": 1,
+    "fat": 10,
+    "type": "non-veg",
+    "mealType": ["breakfast"]
+  },
+  {
+    "name": "Idli (2 pieces)",
+    "calories": 130,
+    "protein": 3,
+    "carbs": 26,
+    "fat": 1,
+    "type": "veg",
+    "mealType": ["breakfast"]
+  },
+  {
+    "name": "Dosa with sambhar",
+    "calories": 200,
+    "protein": 6,
+    "carbs": 32,
+    "fat": 4,
+    "type": "veg",
+    "mealType": ["breakfast"]
+  },
+  {
+    "name": "Upma (1 bowl)",
+    "calories": 180,
+    "protein": 5,
+    "carbs": 30,
+    "fat": 3,
+    "type": "veg",
+    "mealType": ["breakfast"]
+  },
+  {
+    "name": "Paneer Curry (1 cup)",
+    "calories": 250,
+    "protein": 15,
+    "carbs": 8,
+    "fat": 18,
+    "type": "veg",
+    "mealType": ["lunch"]
+  },
+  {
+    "name": "Chicken Curry (1 cup)",
+    "calories": 280,
+    "protein": 30,
+    "carbs": 5,
+    "fat": 15,
+    "type": "non-veg",
+    "mealType": ["lunch"]
+  },
+  {
+    "name": "Fish Curry (1 cup)",
+    "calories": 200,
+    "protein": 25,
+    "carbs": 3,
+    "fat": 10,
+    "type": "non-veg",
+    "mealType": ["lunch"]
+  },
+  {
+    "name": "Rice (1 cup cooked)",
+    "calories": 200,
+    "protein": 4,
+    "carbs": 45,
+    "fat": 0,
+    "type": "veg",
+    "mealType": ["lunch"]
+  },
+  {
+    "name": "Roti (2 pieces)",
+    "calories": 180,
+    "protein": 6,
+    "carbs": 36,
+    "fat": 1,
+    "type": "veg",
+    "mealType": ["lunch"]
+  },
+  {
+    "name": "Dal (Lentil Curry) 1 cup",
+    "calories": 220,
+    "protein": 15,
+    "carbs": 35,
+    "fat": 2,
+    "type": "veg",
+    "mealType": ["lunch"]
+  },
+  {
+    "name": "Vegetable Biryani (1 cup)",
+    "calories": 280,
+    "protein": 8,
+    "carbs": 45,
+    "fat": 6,
+    "type": "veg",
+    "mealType": ["lunch"]
+  },
+  {
+    "name": "Chicken Biryani (1 cup)",
+    "calories": 350,
+    "protein": 25,
+    "carbs": 40,
+    "fat": 10,
+    "type": "non-veg",
+    "mealType": ["lunch"]
+  },
+  {
+    "name": "Grilled Chicken Breast (150g)",
+    "calories": 165,
+    "protein": 31,
+    "carbs": 0,
+    "fat": 3,
+    "type": "non-veg",
+    "mealType": ["dinner"]
+  },
+  {
+    "name": "Grilled Fish (150g)",
+    "calories": 130,
+    "protein": 28,
+    "carbs": 0,
+    "fat": 1,
+    "type": "non-veg",
+    "mealType": ["dinner"]
+  },
+  {
+    "name": "Steamed Vegetables (1 cup)",
+    "calories": 80,
+    "protein": 3,
+    "carbs": 15,
+    "fat": 1,
+    "type": "veg",
+    "mealType": ["dinner"]
+  },
+  {
+    "name": "Salad with Olive Oil (1 bowl)",
+    "calories": 150,
+    "protein": 3,
+    "carbs": 10,
+    "fat": 10,
+    "type": "veg",
+    "mealType": ["dinner"]
+  },
+  {
+    "name": "Tofu Stir Fry (150g)",
+    "calories": 130,
+    "protein": 15,
+    "carbs": 6,
+    "fat": 6,
+    "type": "veg",
+    "mealType": ["dinner"]
+  },
+  {
+    "name": "Brown Rice (1 cup)",
+    "calories": 215,
+    "protein": 5,
+    "carbs": 45,
+    "fat": 1,
+    "type": "veg",
+    "mealType": ["dinner"]
+  },
+  {
+    "name": "Almonds (30g/1 oz)",
+    "calories": 160,
+    "protein": 6,
+    "carbs": 6,
+    "fat": 14,
+    "type": "veg",
+    "mealType": ["snacks"]
+  },
+  {
+    "name": "Mixed Nuts (30g)",
+    "calories": 170,
+    "protein": 5,
+    "carbs": 8,
+    "fat": 15,
+    "type": "veg",
+    "mealType": ["snacks"]
+  },
+  {
+    "name": "Greek Yogurt (150g)",
+    "calories": 100,
+    "protein": 17,
+    "carbs": 7,
+    "fat": 0,
+    "type": "veg",
+    "mealType": ["snacks"]
+  },
+  {
+    "name": "Apple (1 medium)",
+    "calories": 95,
+    "protein": 0,
+    "carbs": 25,
+    "fat": 0,
+    "type": "veg",
+    "mealType": ["snacks"]
+  },
+  {
+    "name": "Protein Bar",
+    "calories": 200,
+    "protein": 20,
+    "carbs": 15,
+    "fat": 6,
+    "type": "veg",
+    "mealType": ["snacks"]
+  },
+  {
+    "name": "Roasted Chickpeas (1 cup)",
+    "calories": 180,
+    "protein": 9,
+    "carbs": 25,
+    "fat": 4,
+    "type": "veg",
+    "mealType": ["snacks"]
+  },
+  {
+    "name": "Peanut Butter (2 tbsp)",
+    "calories": 190,
+    "protein": 8,
+    "carbs": 7,
+    "fat": 16,
+    "type": "veg",
+    "mealType": ["snacks"]
+  },
+  {
+    "name": "Sprouts (1 cup)",
+    "calories": 80,
+    "protein": 9,
+    "carbs": 8,
+    "fat": 1,
+    "type": "veg",
+    "mealType": ["snacks"]
+  },
+  {
+    "name": "Boiled Eggs (2)",
+    "calories": 140,
+    "protein": 12,
+    "carbs": 1,
+    "fat": 10,
+    "type": "non-veg",
+    "mealType": ["snacks"]
+  },
+  {
+    "name": "Orange (1 medium)",
+    "calories": 60,
+    "protein": 1,
+    "carbs": 15,
+    "fat": 0,
+    "type": "veg",
+    "mealType": ["snacks"]
+  },
+  {
+    "name": "Cottage Cheese (150g)",
+    "calories": 110,
+    "protein": 28,
+    "carbs": 3,
+    "fat": 1,
+    "type": "veg",
+    "mealType": ["snacks"]
+  },
+  {
+    "name": "Corn (1 cup cooked)",
+    "calories": 130,
+    "protein": 5,
+    "carbs": 29,
+    "fat": 2,
+    "type": "veg",
+    "mealType": ["lunch"]
+  },
+  {
+    "name": "Mutton Curry (1 cup)",
+    "calories": 320,
+    "protein": 28,
+    "carbs": 4,
+    "fat": 22,
+    "type": "non-veg",
+    "mealType": ["lunch"]
+  },
+  {
+    "name": "Shrimp Curry (1 cup)",
+    "calories": 180,
+    "protein": 28,
+    "carbs": 3,
+    "fat": 6,
+    "type": "non-veg",
+    "mealType": ["lunch"]
+  },
+  {
+    "name": "Baked Salmon (150g)",
+    "calories": 280,
+    "protein": 30,
+    "carbs": 0,
+    "fat": 17,
+    "type": "non-veg",
+    "mealType": ["dinner"]
+  },
+  {
+    "name": "Boiled Chicken (150g)",
+    "calories": 165,
+    "protein": 31,
+    "carbs": 0,
+    "fat": 3,
+    "type": "non-veg",
+    "mealType": ["dinner"]
+  }
+]

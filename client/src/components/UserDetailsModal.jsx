@@ -41,16 +41,33 @@ export default function UserDetailsModal({ selectedPlan, onClose, onSubmit }) {
     const newErrors = {};
 
     if (!formData.name.trim()) newErrors.name = "Name is required";
+    else if (!/^[a-zA-Z\s]+$/.test(formData.name.trim())) newErrors.name = "Name must contain only letters and spaces";
+    else if (formData.name.trim().length < 2) newErrors.name = "Name must be at least 2 characters";
+
     if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) newErrors.email = "Invalid email format";
+
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
+    else if (!/^\d{10}$/.test(formData.phone.trim())) newErrors.phone = "Phone number must be 10 digits";
+
     if (!formData.dob) newErrors.dob = "Date of birth is required";
+    else {
+      const birthDate = new Date(formData.dob);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      if (age < 13 || age > 100) newErrors.dob = "Age must be between 13 and 100 years";
+    }
+
     if (!formData.address.trim()) newErrors.address = "Address is required";
+    else if (formData.address.trim().length < 10) newErrors.address = "Address must be at least 10 characters";
+
     if (!formData.username.trim()) newErrors.username = "Username is required";
+    else if (formData.username.trim().length < 3) newErrors.username = "Username must be at least 3 characters";
+
     if (!formData.password) newErrors.password = "Password is required";
-    if (formData.password.length < 6)
-      newErrors.password = "Password must be at least 6 characters";
-    if (formData.password !== formData.confirmPassword)
-      newErrors.confirmPassword = "Passwords do not match";
+    else if (formData.password.length < 6) newErrors.password = "Password must be at least 6 characters";
+
+    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Passwords do not match";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

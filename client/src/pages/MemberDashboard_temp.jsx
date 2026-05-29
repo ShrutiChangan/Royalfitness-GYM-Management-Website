@@ -38,7 +38,6 @@ import {
   Beef,
   Wheat,
   Droplets,
-  Copy,
   RefreshCw
 } from "lucide-react";
 
@@ -87,8 +86,6 @@ const MemberDashboard = () => {
   const [dietPlan, setDietPlan] = useState(null);
   const [dietLoading, setDietLoading] = useState(false);
   const [dietError, setDietError] = useState("");
-  const [copyStatus, setCopyStatus] = useState("");
-  const [feedbackMessage, setFeedbackMessage] = useState("");
 
   // Initialize goals from localStorage
   useEffect(() => {
@@ -102,14 +99,6 @@ const MemberDashboard = () => {
   useEffect(() => {
     localStorage.setItem("memberGoals", JSON.stringify(goals));
   }, [goals]);
-
-  // Clear feedback message after 3 seconds
-  useEffect(() => {
-    if (feedbackMessage) {
-      const timer = setTimeout(() => setFeedbackMessage(""), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [feedbackMessage]);
 
   // Get member attendance stats
   const attendanceStats = getMemberAttendanceStats(user?.id);
@@ -299,27 +288,6 @@ const upcomingSessions = sessions.filter(session =>
     setDietLoading(true);
     setDietError("");
 
-    // Validation
-    const age = parseInt(dietForm.age);
-    const weight = parseFloat(dietForm.weight);
-    const height = parseFloat(dietForm.height);
-
-    if (!age || age < 13 || age > 100) {
-      setDietError("Age must be between 13 and 100");
-      setDietLoading(false);
-      return;
-    }
-    if (!weight || weight < 30 || weight > 300) {
-      setDietError("Weight must be between 30 and 300 kg");
-      setDietLoading(false);
-      return;
-    }
-    if (!height || height < 100 || height > 250) {
-      setDietError("Height must be between 100 and 250 cm");
-      setDietLoading(false);
-      return;
-    }
-
     try {
       console.log("Generating diet plan with form data:", dietForm);
 
@@ -392,74 +360,12 @@ const upcomingSessions = sessions.filter(session =>
     const data = await res.json();
 
     if (data.success) {
-      setFeedbackMessage(`Thank you for your feedback! You ${type}d the diet plan.`);
+      alert(`Thank you for your feedback! You ${type}d the diet plan.`);
     }
   } catch (err) {
     console.error("Feedback error:", err);
   }
 };
-
-  const formatDietPlanForClipboard = () => {
-    if (!dietPlan) return "";
-
-    let text = `Diet Plan - Calories: ${Number(dietPlan?.nutrition?.calories || 0).toFixed(1)} kcal, Protein: ${Number(dietPlan?.nutrition?.protein || 0).toFixed(1)}g, Carbs: ${Number(dietPlan?.nutrition?.carbs || 0).toFixed(1)}g, Fat: ${Number(dietPlan?.nutrition?.fat || 0).toFixed(1)}g\n\n`;
-    const meals = dietPlan?.dietPlan || {};
-
-    for (const [meal, items] of Object.entries(meals)) {
-      text += `${meal.toUpperCase()}:\n`;
-      if (Array.isArray(items) && items.length) {
-        items.forEach((item, idx) => {
-          text += `  ${idx + 1}. ${item.name} - ${Number(item.calories || 0).toFixed(1)} kcal, ${Number(item.protein || 0).toFixed(1)}g protein, ${Number(item.carbs || 0).toFixed(1)}g carbs, ${Number(item.fat || 0).toFixed(1)}g fat`;
-          if (item.description) text += ` (${item.description})`;
-          text += "\n";
-        });
-      } else {
-        text += "  No items\n";
-      }
-      text += "\n";
-    }
-
-    text += `Total - Calories: ${Number(dietPlan?.totals?.totalCalories || 0).toFixed(1)} kcal, Protein: ${Number(dietPlan?.totals?.totalProtein || 0).toFixed(1)}g, Carbs: ${Number(dietPlan?.totals?.totalCarbs || 0).toFixed(1)}g, Fat: ${Number(dietPlan?.totals?.totalFat || 0).toFixed(1)}g`;
-
-    text += `\n\nDaily Nutrition Guidelines:\n`;
-    text += `- Drink at least 2–3 liters of water daily to stay hydrated.\n`;
-    text += `- Avoid oily, fried, and packaged foods as much as possible.\n`;
-    text += `- Include fresh fruits and vegetables in your daily meals.\n`;
-    text += `- Eat at regular intervals and avoid skipping meals.\n`;
-    text += `- Limit sugar, salt, and processed food intake.\n`;
-    text += `- Prefer home-cooked meals over outside food.\n`;
-    return text;
-  };
-
-  const handleCopyDietPlan = async () => {
-    const planText = formatDietPlanForClipboard();
-    if (!planText) {
-      setCopyStatus("No diet plan to copy.");
-      return;
-    }
-
-    try {
-      if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
-        await navigator.clipboard.writeText(planText);
-      } else {
-        const textArea = document.createElement("textarea");
-        textArea.value = planText;
-        textArea.setAttribute("readonly", "");
-        textArea.style.position = "absolute";
-        textArea.style.left = "-9999px";
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textArea);
-      }
-      setCopyStatus("Diet plan copied to clipboard!");
-      setTimeout(() => setCopyStatus(""), 2600);
-    } catch (err) {
-      console.error("Copy failed", err);
-      setCopyStatus("Copy failed. Please try again.");
-      setTimeout(() => setCopyStatus(""), 2600);
-    }
-  };
 
   // Add these session handler functions RIGHT HERE:
   const handleScheduleSession = (sessionId) => {
@@ -488,15 +394,6 @@ const upcomingSessions = sessions.filter(session =>
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Feedback Notification */}
-      {feedbackMessage && (
-        <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg animate-slide-in">
-          <div className="flex items-center gap-3">
-            <CheckCircle className="h-5 w-5" />
-            <span>{feedbackMessage}</span>
-          </div>
-        </div>
-      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -588,7 +485,7 @@ const upcomingSessions = sessions.filter(session =>
                     <Icon className="h-5 w-5 flex-shrink-0" />
                     <span>{tab.label}</span>
                   </button>
-  );
+                );
               })}
             </div>
           </nav>
@@ -786,14 +683,7 @@ const upcomingSessions = sessions.filter(session =>
                     Your Personalized Diet Plan
                   </h3>
                   <div className="flex items-center space-x-2">
-  <button
-    onClick={handleCopyDietPlan}
-    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center"
-  >
-    <Copy className="h-4 w-4 mr-2" /> Copy Plan
-  </button>
-  <span className="text-sm text-gray-700">{copyStatus}</span>
-
+                    
   <button
     onClick={() => handleFeedback("like")}
     className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center"
@@ -815,14 +705,16 @@ const upcomingSessions = sessions.filter(session =>
     ✕
   </button>
 </div>
+                  </div>
                 </div>
+            )}
                 {/* Nutrition Summary */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                   <div className="bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 rounded-xl p-4 text-center">
                     <div className="flex justify-center mb-2">
                       <Flame className="h-6 w-6 text-orange-600" />
                     </div>
-                    <div className="text-2xl font-bold text-orange-800">{Number(dietPlan?.nutrition?.calories ?? 0).toFixed(1)}</div>
+                    <div className="text-2xl font-bold text-orange-800">{dietPlan?.nutrition?.calories ?? "0"}</div>
                     <div className="text-sm text-orange-700 font-medium">Calories</div>
                     <div className="text-xs text-orange-600">per day</div>
                   </div>
@@ -831,7 +723,7 @@ const upcomingSessions = sessions.filter(session =>
                     <div className="flex justify-center mb-2">
                       <Beef className="h-6 w-6 text-blue-600" />
                     </div>
-                    <div className="text-2xl font-bold text-blue-800">{Number(dietPlan?.nutrition?.protein ?? 0).toFixed(1)}g</div>
+                    <div className="text-2xl font-bold text-blue-800">{dietPlan?.nutrition?.protein ?? "0"}g</div>
                     <div className="text-sm text-blue-700 font-medium">Protein</div>
                     <div className="text-xs text-blue-600">per day</div>
                   </div>
@@ -840,7 +732,7 @@ const upcomingSessions = sessions.filter(session =>
                     <div className="flex justify-center mb-2">
                       <Wheat className="h-6 w-6 text-green-600" />
                     </div>
-                    <div className="text-2xl font-bold text-green-800">{Number(dietPlan?.nutrition?.carbs ?? 0).toFixed(1)}g</div>
+                    <div className="text-2xl font-bold text-green-800">{dietPlan?.nutrition?.carbs ?? "0"}g</div>
                     <div className="text-sm text-green-700 font-medium">Carbs</div>
                     <div className="text-xs text-green-600">per day</div>
                   </div>
@@ -849,24 +741,12 @@ const upcomingSessions = sessions.filter(session =>
                     <div className="flex justify-center mb-2">
                       <Droplets className="h-6 w-6 text-purple-600" />
                     </div>
-                    <div className="text-2xl font-bold text-purple-800">{Number(dietPlan?.nutrition?.fat ?? 0).toFixed(1)}g</div>
+                    <div className="text-2xl font-bold text-purple-800">{dietPlan?.nutrition?.fat ?? "0"}g</div>
                     <div className="text-sm text-purple-700 font-medium">Fat</div>
                     <div className="text-xs text-purple-600">per day</div>
                   </div>
                 </div>
-
-                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-lg">
-                  <h4 className="font-semibold text-yellow-800 mb-2">Daily Nutrition Guidelines</h4>
-                  <ul className="list-disc list-inside text-sm text-yellow-900 space-y-1">
-                    <li>Drink at least 2–3 liters of water daily to stay hydrated.</li>
-                    <li>Avoid oily, fried, and packaged foods as much as possible.</li>
-                    <li>Include fresh fruits and vegetables in your daily meals.</li>
-                    <li>Eat at regular intervals and avoid skipping meals.</li>
-                    <li>Limit sugar, salt, and processed food intake.</li>
-                    <li>Prefer home-cooked meals over outside food.</li>
-                  </ul>
-                </div>
-
+                
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {Object.entries(dietPlan?.dietPlan || {}).map(([meal, foods]) => {
                     const getMealIcon = (mealType) => {
@@ -907,19 +787,19 @@ const upcomingSessions = sessions.filter(session =>
                                   <div className="grid grid-cols-2 gap-2 text-xs">
                                     <div className="flex justify-between">
                                       <span className="text-gray-600">Calories:</span>
-                                      <span className="font-semibold text-orange-600">{Number(food.calories).toFixed(1)}</span>
+                                      <span className="font-semibold text-orange-600">{food.calories}</span>
                                     </div>
                                     <div className="flex justify-between">
                                       <span className="text-gray-600">Protein:</span>
-                                      <span className="font-semibold text-blue-600">{Number(food.protein).toFixed(1)}g</span>
+                                      <span className="font-semibold text-blue-600">{food.protein}g</span>
                                     </div>
                                     <div className="flex justify-between">
                                       <span className="text-gray-600">Carbs:</span>
-                                      <span className="font-semibold text-green-600">{Number(food.carbs).toFixed(1)}g</span>
+                                      <span className="font-semibold text-green-600">{food.carbs}g</span>
                                     </div>
                                     <div className="flex justify-between">
                                       <span className="text-gray-600">Fat:</span>
-                                      <span className="font-semibold text-purple-600">{Number(food.fat).toFixed(1)}g</span>
+                                      <span className="font-semibold text-purple-600">{food.fat}g</span>
                                     </div>
                                   </div>
                                 </div>
@@ -932,13 +812,13 @@ const upcomingSessions = sessions.filter(session =>
                                   <div className="flex justify-between">
                                     <span className="text-gray-600">Calories:</span>
                                     <span className="font-bold text-orange-600">
-                                      {Number(foods.reduce((sum, f) => sum + f.calories, 0)).toFixed(1)}
+                                      {foods.reduce((sum, f) => sum + f.calories, 0)}
                                     </span>
                                   </div>
                                   <div className="flex justify-between">
                                     <span className="text-gray-600">Protein:</span>
                                     <span className="font-bold text-blue-600">
-                                      {Number(foods.reduce((sum, f) => sum + f.protein, 0)).toFixed(1)}g
+                                      {foods.reduce((sum, f) => sum + f.protein, 0).toFixed(1)}g
                                     </span>
                                   </div>
                                   <div className="flex justify-between">
@@ -963,11 +843,12 @@ const upcomingSessions = sessions.filter(session =>
                           )}
                         </div>
                       </div>
-  );
+                    );
                   })}
                 </div>
               </div>
-            )}
+            )
+            }
 
             {/* Attendance Tab */}
             {activeTab === "attendance" && (
@@ -1555,6 +1436,7 @@ const upcomingSessions = sessions.filter(session =>
           </div>
         </div>
       </div>
+      )
 
       {/* Floating Action Button for Diet Plan */}
       <button
@@ -1854,7 +1736,6 @@ const upcomingSessions = sessions.filter(session =>
         </div>
       )}
     
-  </div>
   );
 }; 
 export default MemberDashboard;

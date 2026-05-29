@@ -8,22 +8,31 @@ export default function BMICalculator() {
   const [category, setCategory] = useState('');
 
   const calculateBMI = () => {
-    const heightInM = parseFloat(height) / 100;
-    const weightInKg = parseFloat(weight);
+    const heightNum = parseFloat(height);
+    const weightNum = parseFloat(weight);
     
-    if (heightInM > 0 && weightInKg > 0) {
-      const calculatedBMI = weightInKg / (heightInM * heightInM);
-      setBMI(Math.round(calculatedBMI * 10) / 10);
-      
-      if (calculatedBMI < 18.5) {
-        setCategory('Underweight');
-      } else if (calculatedBMI < 25) {
-        setCategory('Normal weight');
-      } else if (calculatedBMI < 30) {
-        setCategory('Overweight');
-      } else {
-        setCategory('Obese');
-      }
+    if (!height || heightNum <= 0 || heightNum > 300) {
+      alert('Please enter a valid height between 1 and 300 cm');
+      return;
+    }
+    if (!weight || weightNum <= 0 || weightNum > 500) {
+      alert('Please enter a valid weight between 1 and 500 kg');
+      return;
+    }
+    
+    const heightInM = heightNum / 100;
+    
+    const calculatedBMI = weightNum / (heightInM * heightInM);
+    setBMI(Math.round(calculatedBMI * 10) / 10);
+    
+    if (calculatedBMI < 18.5) {
+      setCategory('Underweight');
+    } else if (calculatedBMI < 25) {
+      setCategory('Normal weight');
+    } else if (calculatedBMI < 30) {
+      setCategory('Overweight');
+    } else {
+      setCategory('Obese');
     }
   };
 

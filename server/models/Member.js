@@ -3,25 +3,51 @@ const mongoose = require('mongoose');
 const memberSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    minlength: 2,
+    match: /^[a-zA-Z\s]+$/
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   },
   phone: {
     type: String,
-    required: true
+    required: true,
+    match: /^\d{10}$/
+  },
+  dob: {
+    type: Date,
+    required: true,
+    validate: {
+      validator: function(value) {
+        const age = new Date().getFullYear() - value.getFullYear();
+        return age >= 13 && age <= 100;
+      },
+      message: 'Age must be between 13 and 100 years'
+    }
+  },
+  address: {
+    type: String,
+    required: true,
+    minlength: 10
+  },
+  selectedTrainer: {
+    type: String,
+    default: ''
   },
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    minlength: 3
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    minlength: 6
   },
   subscriptionPlan: {
     type: String,
